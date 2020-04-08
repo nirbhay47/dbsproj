@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DBSbook</title>
+
+  <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">
+</head>
+<body>
+  <!-- nav -->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">DBSbook</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/transaction">Payments</a></li>
+        <li><a href="/community">Communities</a></li>
+        <li><a href="/music">Music</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/market">Market</a></li>
+        <li><a href="/myprofile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+  <!-- ./nav -->
+
+  <!-- main -->
+  <main class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <!-- edit profile -->
+        <br><br><br><br><br>
+		<form method="post" action="addmarketitem" enctype="multipart/form-data">
+          <div class="input-group">
+            <input class="form-control" type="text" name="title" placeholder="Make a post...">
+            <input class="form-control" type="text" name="description" placeholder="Enter Description">
+            <input class="form-control" type="text" name="price" placeholder="Enter Price">
+          </div>
+			<input class="form-control-file" type="file" name="picture"/>
+			<br>
+              <button class="btn btn-success" type="submit" name="post">Post</button>
+        </form><hr>
+        <!-- ./edit profile -->
+      </div>
+      <div class="col-md-6">
+      	<h1 align="center"> Marketplace</h1>
+        <hr>
+
+        <!-- timeline -->
+        <div>
+          <!-- Items -->
+          {% for p in data["items"] %}
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <h3>{{p[1]}}</h3>
+                  <p>{{p[2]}}</p>
+                  <b><p>Price: {{p[3]}}</p></b>
+                </div>
+                <div class="panel-footer">
+                  <span>posted by {{p[4]}}</span>
+                  {% if p[5] == data['userdata']['userid'] %}
+                  	<span class="pull-right"><a href="marksold/{{p[0]}}">{{'[Mark as sold]'}}</a></span>
+
+                  	{% else %}
+                  	<span class="pull-right"><a href="buy/{{p[0]}}">{{'[BUY]'}}</a></span>
+
+
+                  {% endif %}
+                </div>
+              </div>
+          {% endfor %}
+          <!-- ./Items -->
+        </div>
+        <!-- ./timeline -->
+      </div>
+      <div class="col-md-3">
+        <!-- friends -->
+		<br>
+		<br>
+		<br>
+		<br>
+        <!-- ./friends -->
+		<div class="panel panel-default">
+          <div class="panel-body">
+            <center><h4>Current Balance</h4>
+            {{wallet}}</center>
+          </div>
+        </div>
+		<div class="panel panel-default">
+          <div class="panel-body">
+            <h4>Previously Bought</h4>
+            <ul>
+              {% for f in bought %}
+              <li>
+                <h4>{{f[1]}}</h4>
+				Price-{{f[3]}}
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+  <!-- ./main -->
+
+  <!-- footer -->
+  <footer class="container text-center">
+    <ul class="nav nav-pills pull-right">
+      <!-- <li>DBSbook - Made by [your name here]</li> -->
+    </ul>
+  </footer>
+  <!-- ./footer -->
+  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="static/js/script.js"></script>
+</body>
+</html>

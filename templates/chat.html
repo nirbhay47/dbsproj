@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="refresh" content="5"/>
+  <title>DBSbook</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+<body>
+  <!-- nav -->
+  <nav class="navbar navbar-default" style="background-color:#474A9B">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/" ><font color="white">DBSbook</font></a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/transaction"><font color="white">Payments</font></a></li>
+        <li><a href="/community"><font color="white">Communities</font></a></li>
+        <li><a href="/music"><font color="white">Music</font></a></li>
+        <li><a href="/events"><font color="white">Events</font></a></li>
+        <li><a href="/market"><font color="white">Market</font></a></li>
+        <li><a href="/myprofile"><font color="white">Profile</font></a></li>
+        <li><a href="/logout"><font color="white">Logout</font></a></li>
+      </ul>
+    </div>
+  </nav>
+  <!-- ./nav -->
+
+  <!-- main -->
+  <main class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <!-- profile brief -->
+         <div class="media">
+          <div class="media-left">
+            <img src= {{userdata['fprofile_picture']}} class="media-object" style="width: 128px; height: 128px;">
+          </div>
+          <div class="media-body">
+          </div>
+          <br>
+        </div>
+            <h2 class="media-heading">{{userdata["friendname"]}}</h2>
+            <p>Status: {{userdata['fbio']}}</p>
+        <!-- ./profile brief -->
+
+        <!-- friend requests -->
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4>Friend Requests</h4>
+            <ul>
+              {% for f in userdata['requests'] %}
+              <li>
+                <a href="#">{{f[1]}}</a>
+                <a class="text-success" href="requests/add/{{f[0]}}">[accept]</a>
+                <a class="text-danger" href="requests/delete/{{f[0]}}">[decline]</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- ./friend requests -->
+      </div>
+      <div class="col-md-6">
+        <!-- post form -->
+		<center><h2>Messages</h2></center>
+        <hr>
+        {% for f in messages['texts'] %}
+          {% if f[1] == userdata['userid'] %}
+          <div align="right" style="background-color:#e4eded">
+          {% else %}
+          <div style="background-color:#c7c7c7">
+          {% endif %}
+          <h4> <br>&nbsp;&nbsp;{{f[2]}} &nbsp;&nbsp;</h4><small>&nbsp;&nbsp;&nbsp;<b>{{f[5]}}</b></small>&nbsp;&nbsp;
+          <small>{{f[4]}}&nbsp;&nbsp;&nbsp;</small><hr>
+        </div>
+        {% endfor %}
+        <hr>
+        <!-- ./post form -->
+        <!-- feed -->
+        <div>
+          <!-- post -->
+          <form method="post" action="{{ url_for('chatstore') }}" enctype="multipart/form-data">
+            <div class="input-group">
+              <input class="form-control" type="text" name="content" placeholder="Send message">
+              <span class="input-group-btn">
+                <button class="btn btn-success" type="submit" name="chatstore">Send</button>
+                <br><br><hr>
+              </span>
+            </div>
+          </form>
+          <!-- ./post -->
+        </div>
+        <!-- ./feed -->
+      </div>
+      <div class="col-md-3">
+      <!-- add friend -->
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4>Add Friend</h4>
+            <ul>
+              {% for f in userdata['otherusers'] %}
+              <li>
+                <a href="#">{{f[1]}}</a>
+                <a href="friends/add/{{f[0]}}">[add]</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- ./add friend -->
+
+        <!-- friends -->
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4>Friends</h4>
+            <ul>
+              {% for f in userdata['friends'] %}
+              <li>
+                <a href="#">{{f[0]}}</a>
+                <a class="text-danger" href="../chats/{{f[1]}}">[chat]</a>
+                <a class="text-danger" href="../../friends/delete/{{f[1]}}">[unfriend]</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- ./friends -->
+      </div>
+    </div>
+  </main>
+  <!-- ./main -->
+
+  <!-- footer -->
+  <footer class="container text-center">
+    <ul class="nav nav-pills pull-right">
+    </ul>
+  </footer>
+  <!-- ./footer -->
+  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="static/js/script.js"></script>
+</body>
+</html>
